@@ -1,0 +1,4 @@
+FROM ruby:2.7.2-alpine3.12
+
+WORKDIR /src
+EXPOSE 4567

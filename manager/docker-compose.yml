@@ -1,0 +1,34 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    container_name: manager-db
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root12345
+      MYSQL_DATABASE: master_db
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+    ports:
+      - 3306:3306
+    networks:
+      - cloud-network
+  api:
+    build: .
+    image: manager-api
+    container_name: manager-api
+    tty: true
+    volumes:
+      - .:/manager_api:delegated
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - cloud-network
+volumes:
+  bundle:
+    driver: local
+networks:
+  cloud-network:
+    external: true

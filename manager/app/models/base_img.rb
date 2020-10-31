@@ -1,0 +1,2 @@
+class BaseImg < ApplicationRecord
+end
