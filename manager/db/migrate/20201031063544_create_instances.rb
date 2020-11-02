@@ -1,12 +1,12 @@
 class CreateInstances < ActiveRecord::Migration[6.0]
   def change
     create_table :instances do |t|
-      t.string :uid
-      t.integer :memory
-      t.integer :cpu
-      t.string :ip_address
-      t.string :mac_address
-      t.string :status
+      t.string :uid, null: false
+      t.integer :memory, null: false
+      t.integer :cpu, null: false
+      t.string :ip_address, null: true
+      t.string :mac_address, null: true
+      t.string :status, null: false
       t.references :base_img
       t.references :server
       t.references :user

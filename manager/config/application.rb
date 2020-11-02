@@ -23,6 +23,7 @@ module MangerApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.autoloader = :classic
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -33,5 +34,9 @@ module MangerApi
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.autoload_paths << Rails.root.join("app")
+    config.autoload_paths << Rails.root.join("lib")
+    config.eager_load_paths << Rails.root.join("app")
+    config.eager_load_paths << Rails.root.join("lib")
   end
 end
