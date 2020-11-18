@@ -43,7 +43,7 @@ $ nmtui #あるいは nmcli
 
 3. ホスト名を設定する
 ```sh
-$ nmcli general hostname ra050x # xは連番, 01をmanagerに設定する
+$ nmcli general hostname r5ex # xは連番, 01をmanagerに設定する
 ```
 
 <!-- 4. 管理用ネットワークブリッジの作成
@@ -60,21 +60,47 @@ $ sudo nmcli connection add type bridge ifname br1
 $ sudo yum install -y bridge-utils
 $ sudo brctl addbr br0
 $ sudo ip link set br0 up
-$ sudo brctl addif br0 eth0
+$ sudo brctl addif br0 em2
 $ sudo nmcli connection add type bridge ifname br0
 ```
 
-0. KVMにネットワークを追加
+## rsyncの設定
+1. /etc/xinetd.d/rsync ファイルの作成
+```
+# default: off
+# description: The rsync server is a good addition to an ftp server, as it \
+#       allows crc checksumming etc.
+service rsync
+{
+        disable         = no   # <= 変更
+        flags           = IPv6
+        socket_type     = stream
+        wait            = no
+        user            = root
+        server          = /usr/bin/rsync
+        server_args     = --daemon
+        log_on_failure  += USERID
+}
+```
+2. 同期先ディレクトリの作成
 ```sh
-$ virsh list
-$ virsh domiflist kvm_centos7
-$ virsh attach-interface --persistent --type bridge --source br0 --model virtio kvm_centos7
-$ virsh detach-interface --type bridge --domain kvm_centos7 --mac <mac> # 削除
+$ mkdir /home/hmori/base_imgs
 ```
 
-0. VMのIP範囲を変更
-```sh
-$ virsh net-edit default # '192.168.122.xx' (10~89, 90~169, 170~249)
-$ virsh net-destroy default
-$ virsh net-start default
+3. /etc/rsyncd.conf ファイルの作成
 ```
+[base_image]
+path = /home/hmori/base_imgs
+hosts allow = 192.168.0.12 192.168.0.13 192.168.0.14
+hosts deny = *
+list = true
+uid = root
+gid = root
+read only = true
+```
+
+4. 再起動
+```sh
+$ systemctl restart xinetd && systemctl enable xinetd
+```
+

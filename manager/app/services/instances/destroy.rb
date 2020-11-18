@@ -9,7 +9,14 @@ module Services::Instances
 
       ActiveRecord::Base.transaction do
         instance.save!(status: Instance.statuses[:terminating])
-        # TODO: サーバーとの通信処理
+        
+        client = Faraday.new(url: "http://#{instance.server.ip_address}")
+        res = client.post do |req|
+          req.url = "/instances/#{instance.uid}/terminate"
+        end
+        unless res.success?
+          raise IOError
+        end
       end
     end
   end

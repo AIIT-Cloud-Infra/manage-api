@@ -9,8 +9,9 @@ class ApplicationController < ActionController::API
 
   def current_user
     token = request.headers["X-AUTH-TOKEN"]
-    render_unauthorized_result() if token.blank?
+    return render_unauthorized_result() if token.blank?
 
+    p token
     user = User.find_by(remember_digest: token)
     if user
       @current_user = user

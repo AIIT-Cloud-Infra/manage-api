@@ -13,6 +13,7 @@ module Services::Users
       else
         raise ActiveRecord::RecordNotFound
       end
+      p user
       { token: user.remember_digest }
     end
   end
