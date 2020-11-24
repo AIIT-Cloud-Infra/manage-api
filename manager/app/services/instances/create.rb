@@ -49,7 +49,7 @@ module Services::Instances
       servers = Server.availables(memory, cpu, storage)
       # この時点で物理サーバーが存在しない場合は、VM作成不可
       if servers.length == 0
-        raise ActiveRecord::RecordNotSaved 'resource unavailable. not enough server capacity.'
+        raise ActiveRecord::RecordNotSaved, 'resource unavailable. not enough server capacity.'
       end
       # 1つの場合は無条件で選択
       if servers.length == 1

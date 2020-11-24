@@ -20,8 +20,10 @@ sudo yum install -y \
   wget \
   mysql-devel \
   sshpass
-# xmlstarlet
-# sudo yum install -y epel-release && sudo yum install -y xmlstarlet
+# redis
+sudo yum install -y epel-release && sudo yum install redis
+# sudo systemctl enable redis.service # agentのみ
+# sudo systemctl start redis.service # agentのみ
 # rsync
 yum -y install rsync xinetd
 

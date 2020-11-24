@@ -1,6 +1,4 @@
-require 'active_record'
-
-class SshKey < ActiveRecord::Base
+class SshKey < ApplicationRecord
   belongs_to :instance
   validates :value, presence: true
 end
