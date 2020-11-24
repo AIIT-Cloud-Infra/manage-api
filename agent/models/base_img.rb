@@ -1,3 +1,5 @@
+require './models/application_record.rb'
+
 class BaseImg < ApplicationRecord
   has_many :instances, dependent: :nullify
 

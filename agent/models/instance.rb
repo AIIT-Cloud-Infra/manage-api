@@ -1,3 +1,5 @@
+require './models/application_record.rb'
+
 class Instance < ApplicationRecord
   belongs_to :base_img
   belongs_to :server

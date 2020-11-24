@@ -21,7 +21,7 @@ sudo yum install -y \
   mysql-devel \
   sshpass
 # redis
-sudo yum install -y epel-release && sudo yum install redis
+sudo yum install -y epel-release && sudo yum install -y redis
 # sudo systemctl enable redis.service # agentのみ
 # sudo systemctl start redis.service # agentのみ
 # rsync
@@ -29,7 +29,10 @@ yum -y install rsync xinetd
 
 # ruby
 sudo yum install -y centos-release-scl
-sudo yum install -y rh-ruby27
+sudo yum install -y rh-ruby27 rh-ruby27-ruby-devel tzdata
+# etc
+sudo yum install -y mysql-devel gcc make
+sudo yum install -y libxml2 libxslt libxml2-devel libxslt-devel
 
 COMMAND="scl enable rh-ruby27 bash"
 PROFILE_PATH="/home/hmori/.bash_profile"
