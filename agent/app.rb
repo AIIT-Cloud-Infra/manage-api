@@ -8,16 +8,16 @@ require 'mysql2'
 
 require './models/instance'
 require './models/ssh_key'
+require './models/base_img'
 require './create_instance_worker'
 
 # DB設定ファイルの読み込み
 ActiveRecord::Base.configurations = YAML.load_file('database.yml')
 ActiveRecord::Base.establish_connection(development? ? :development : :production)
-# Redis
+# Sidekiq Redis
 Sidekiq.configure_client do |config|
   config.redis = { 'db' => 1 }
 end
-
 
 set :bind, '0.0.0.0'
 

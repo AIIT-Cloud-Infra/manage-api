@@ -106,13 +106,13 @@ $ sudo vi /etc/selinux/config
 
 ## rsync クライアント
 1. /etc/hosts の編集
-```
+```sh
 $ sudo vi /etc/hosts
-=> img-master  192.168.0.11
+=> 192.168.0.11    img-master
 ```
 
 2. cronの設定
-```
+```sh
 $ sudo crontab -e
-=> */30 * * * * rsync -avxu --delete img-master::base_img /home/hmori/base_imgs >> /var/log/rsync.log 2>&1
+=> */10 * * * * bash /home/hmori/manage-api/agent/crons/copy_machine_images.sh
 ```

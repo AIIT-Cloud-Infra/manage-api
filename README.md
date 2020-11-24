@@ -1,18 +1,27 @@
 # manage-api
 
-## Dockerコンテナの作成
-### コンテナイメージの作成
+## 開発環境のDockerコンテナ作成
 ```sh
-$ docker build -t manage-api .
+$ docker-compose up -d
 ```
 
-### コンテナの作成
+## DB初期化
 ```sh
-$ docker run -itd -v $(pwd):/src -p 4567:4567 --name manage-api manage-api
+$ docker exec -it manager-api sh
+$ bundle install
+$ rails db:create && rails db:migrate
 ```
 
-### コンテナの中に入る
+## 管理APIの起動
 ```sh
-$ docker exec -it manage-api sh
+$ docker exec -it manager-api sh
+$ bundle install
+$ rails s -b '0.0.0.0'
 ```
 
+## エージェントAPIの起動
+```sh
+$ docker exec -it agent-api sh
+$ bundle install
+$ ruby app.rb
+```
