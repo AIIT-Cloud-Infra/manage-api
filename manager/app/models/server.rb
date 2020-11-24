@@ -1,4 +1,4 @@
-require 'ipaddr'
+require 'ipaddress'
 
 class Server < ApplicationRecord
   has_many :instances, dependent: :nullify
@@ -10,9 +10,26 @@ class Server < ApplicationRecord
 
   validate :valid_ip?
 
+  scope :availables, -> (memory, cpu, storage) do
+    joins(%{
+      LEFT JOIN instances
+      ON servers.id = instances.server_id AND instances.status != 'terminated'
+    }) \
+    .group(Server.arel_table[:id]) \
+    .select(
+      'servers.*,
+      (servers.memory - IFNULL(sum(instances.memory), 0)) as rest_memory,
+      (servers.cpu - IFNULL(sum(instances.cpu), 0)) as rest_cpu,
+      (servers.storage - IFNULL(sum(instances.storage), 0)) as rest_storage'
+    ) \
+    .having('rest_memory >= ?', memory) \
+    .having('rest_cpu >= ?', cpu) \
+    .having('rest_storage >= ?', storage)
+  end
+
   private
 
   def valid_ip?
-    !!IPAddr.new(ip_address) rescue errors.add(:ip_address, "invalid value of ip address")
+    errors.add(:ip_address, "invalid value of ip address") unless IPAddress.valid? self.ip_address
   end
 end

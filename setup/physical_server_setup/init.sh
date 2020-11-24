@@ -21,7 +21,7 @@ sudo yum install -y \
   mysql-devel \
   sshpass
 # xmlstarlet
-sudo yum install -y epel-release && sudo yum install -y xmlstarlet
+# sudo yum install -y epel-release && sudo yum install -y xmlstarlet
 # rsync
 yum -y install rsync xinetd
 

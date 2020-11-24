@@ -1,3 +1,5 @@
+require "faraday"
+
 module Services::Instances
   class Stop < ActiveInteraction::Base
     integer :user_id
@@ -9,9 +11,8 @@ module Services::Instances
       ActiveRecord::Base.transaction do
         instance.save!(status: Instance.statuses[:halting])
 
-        client = Faraday.new(url: "http://#{instance.server.ip_address}")
+        client = Faraday.new(url: "http://#{instance.server.ip_address}/instances/#{instance.uid}/stop")
         res = client.post do |req|
-          req.url = "/instances/#{instance.uid}/stop"
         end
         unless res.success?
           raise IOError

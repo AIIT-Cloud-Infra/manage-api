@@ -5,7 +5,7 @@ module Services::Instances
 
     def execute
       Instance.find_by!(user_id: user_id, uid: instance_uid)
-        .select([:uid, :memory, :cpu, :ip_address, :mac_address, :status, :created_at, :updated_at])
+        .select([:uid, :memory, :cpu, :storage, :ip_address, :mac_address, :status, :created_at, :updated_at])
     end
   end
 end

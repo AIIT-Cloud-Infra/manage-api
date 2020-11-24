@@ -46,16 +46,7 @@ $ nmtui #あるいは nmcli
 $ nmcli general hostname r5ex # xは連番, 01をmanagerに設定する
 ```
 
-<!-- 4. 管理用ネットワークブリッジの作成
-```sh
-$ sudo brctl addbr br1
-$ sudo ip addr add 10.0.0.x/24 dev br1 # xは連番, 01をmanagerに設定する
-$ sudo ip link set br1 up
-$ sudo brctl addif br1 eth1
-$ sudo nmcli connection add type bridge ifname br1
-``` -->
-
-5. VM用ネットワークブリッジの作成
+4. VM用ネットワークブリッジの作成
 ```sh
 $ sudo yum install -y bridge-utils
 $ sudo brctl addbr br0
@@ -76,7 +67,7 @@ service rsync
         flags           = IPv6
         socket_type     = stream
         wait            = no
-        user            = root
+        user            = hmori
         server          = /usr/bin/rsync
         server_args     = --daemon
         log_on_failure  += USERID
@@ -89,18 +80,39 @@ $ mkdir /home/hmori/base_imgs
 
 3. /etc/rsyncd.conf ファイルの作成
 ```
-[base_image]
+chroot = no
+
+[base_img]
 path = /home/hmori/base_imgs
 hosts allow = 192.168.0.12 192.168.0.13 192.168.0.14
 hosts deny = *
 list = true
-uid = root
-gid = root
+uid = hmori
+gid = hmori
 read only = true
 ```
 
 4. 再起動
 ```sh
-$ systemctl restart xinetd && systemctl enable xinetd
+$ sudo systemctl restart xinetd && sudo systemctl enable xinetd
 ```
 
+5. SELinuxの停止
+```sh
+$ sudo setenforce 0
+$ sudo vi /etc/selinux/config
+=> SELINUX=disabled
+```
+
+## rsync クライアント
+1. /etc/hosts の編集
+```
+$ sudo vi /etc/hosts
+=> img-master  192.168.0.11
+```
+
+2. cronの設定
+```
+$ sudo crontab -e
+=> */30 * * * * rsync -avxu --delete img-master::base_img /home/hmori/base_imgs >> /var/log/rsync.log 2>&1
+```

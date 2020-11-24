@@ -14,7 +14,6 @@ sudo virsh destroy "${ID}"
 sudo virsh undefine "${ID}"
 
 # リソースパス
-VM_DIR=/home/hmori/vm/${ID}
 IMG_PATH=/var/lib/libvirt/images/${ID}.qcow2
 # リソース削除
-sudo rm -rf "${VM_DIR}" "${IMG_PATH}"
+sudo rm -f "${IMG_PATH}"

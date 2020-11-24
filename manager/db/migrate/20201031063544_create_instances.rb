@@ -4,6 +4,7 @@ class CreateInstances < ActiveRecord::Migration[6.0]
       t.string :uid, null: false
       t.integer :memory, null: false
       t.integer :cpu, null: false
+      t.integer :storage, null: false
       t.string :ip_address, null: true
       t.string :mac_address, null: true
       t.string :status, null: false

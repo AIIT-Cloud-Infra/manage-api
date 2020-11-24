@@ -22,7 +22,6 @@ sudo virt-clone \
   --original kvm_centos7 \
   --name ${ID} \
   --file ${IMG_PATH}
-sudo virsh dumpxml ${ID} > ${XML_PATH}
 
 # メモリ変更
 sudo virsh setmaxmem "${ID}" "${MEMORY}MB" --config

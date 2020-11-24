@@ -1,4 +1,4 @@
-require 'ipaddr'
+require 'ipaddress'
 require 'active_record'
 
 class Server < ActiveRecord::Base
@@ -14,6 +14,6 @@ class Server < ActiveRecord::Base
   private
 
   def valid_ip?
-    !!IPAddr.new(ip_address) rescue errors.add(:ip_address, "invalid value of ip address")
+    errors.add(:ip_address, "invalid value of ip address") unless IPAddress.valid? self.ip_address
   end
 end

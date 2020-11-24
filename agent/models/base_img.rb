@@ -1,5 +1,5 @@
 require 'active_record'
-require 'ipaddr'
+require 'ipaddress'
 
 class BaseImg < ActiveRecord::Base
   has_many :instances, dependent: :nullify
@@ -13,6 +13,6 @@ class BaseImg < ActiveRecord::Base
   private
 
   def valid_ip?
-    !!IPAddr.new(ip_address) rescue errors.add(:ip_address, "invalid value of ip address")
+    errors.add(:ip_address, "invalid value of ip address") unless IPAddress.valid? self.ip_address
   end
 end

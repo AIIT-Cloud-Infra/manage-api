@@ -11,24 +11,28 @@ services:
       MYSQL_PASSWORD: testpass
     ports:
       - 3306:3306
-    networks:
-      - cloud-network
   api:
-    build: .
+    build: ./manager
     image: manager-api
     container_name: manager-api
     tty: true
     volumes:
-      - .:/manager_api:delegated
+      - ./manager:/manager_api:delegated
     ports:
       - 3000:3000
     depends_on:
       - db
-    networks:
-      - cloud-network
+  agent:
+    build: ./agent
+    image: agent-api
+    container_name: agent-api
+    tty: true
+    volumes:
+      - ./agent:/agent-api:delegated
+    ports:
+      - 4567:4567
+    depends_on:
+      - db
 volumes:
   bundle:
     driver: local
-networks:
-  cloud-network:
-    external: true
