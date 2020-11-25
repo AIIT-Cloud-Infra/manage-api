@@ -1,5 +1,10 @@
 # README
 
+## ポート開放
+```sh
+sudo firewall-cmd --zone=public --add-port=4567/tcp
+```
+
 ## 本番起動
 ```sh
 cd ~/manage-api/agent

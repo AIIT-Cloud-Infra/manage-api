@@ -20,16 +20,16 @@ class CreateInstanceWorker
     instance = Instance.find_by!(uid: uid)
   
     # VM作成処理
-    mac_address = %x(sh ./scripts/create_kvm_machine #{uid} #{cpu} #{memory})
+    mac_address = %x(sh ./scripts/create_kvm_machine.sh #{uid} #{cpu} #{memory})
     # 初期化中ステータス更新
     instance.update!(
       status: Instance.statuses[:initializing]
     )
   
     # 起動待ちでIP取得
-    ip_address = %x(sh ./scripts/initialize_kvm_machine)
+    ip_address = %x(sh ./scripts/obtain_ip_address.sh #{mac_address})
     # SSHキーの作成
-    private_key = %x(sh ./scripts/setup_ssh_key #{uid} #{ip_address})
+    private_key = %x(sh ./scripts/setup_ssh_key.sh #{uid} #{ip_address})
   
     # 必要データの更新
     ActiceRecord::Base.transaction do
