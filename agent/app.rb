@@ -33,7 +33,7 @@ post '/instances' do
   instance = Instance.find_by!(uid: uid)
 
   # VM作成処理
-  mac_address = %x(sh ./scripts/create_kvm_machine.sh #{uid} #{cpu} #{memory})
+  mac_address = %x(sh ./scripts/create_kvm_machine.sh #{uid} #{memory} #{cpu})
   # 初期化中ステータス更新
   instance.update!(
     status: Instance.statuses[:initializing]
