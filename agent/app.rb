@@ -45,7 +45,7 @@ post '/instances' do
   private_key = %x(sh ./scripts/setup_ssh_key.sh #{uid} #{ip_address})
 
   # 必要データの更新
-  ActiceRecord::Base.transaction do
+  ActiveRecord::Base.transaction do
     instance.update!(
       mac_address: mac_address,
       ip_address: ip_address,
