@@ -17,9 +17,9 @@ ssh-keygen -f "${KEY_PATH}" -q -N ""
 echo "guest" | sshpass ssh-copy-id -f -i "${KEY_PATH}.pub" "guest@${IP_ADDRESS}"
 
 # privateキーの内容を変数化
-PRIVAYE_KEY=$(cat "${KEY_PAHT}")
+PRIVAYE_KEY=$(cat "${KEY_PATH}")
 # キー削除
-rm "${KEY_PATH}" "${KEY_PATH}.pub"
+sudo rm "${KEY_PATH}" "${KEY_PATH}.pub"
 
 # 戻り値
 echo "${PRIVAYE_KEY}"
