@@ -26,9 +26,9 @@ post '/instances' do
   # キューイングで実行
   # CreateInstanceWorker.perform_async(JSON.parse(request.body.read))
   params = JSON.parse(request.body.read)
-  uid = params[:uid]
-  memory = params[:memory]
-  cpu = params[:cpu]
+  uid = params["uid"]
+  memory = params["memory"]
+  cpu = params["cpu"]
   # DBデータ
   instance = Instance.find_by!(uid: uid)
 

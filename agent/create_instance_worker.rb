@@ -13,9 +13,9 @@ class CreateInstanceWorker
   include Sidekiq::Worker
 
   def perform(params)
-    uid = params[:uid]
-    memory = params[:memory]
-    cpu = params[:cpu]
+    uid = params["uid"]
+    memory = params["memory"]
+    cpu = params["cpu"]
     # DBデータ
     instance = Instance.find_by!(uid: uid)
   
