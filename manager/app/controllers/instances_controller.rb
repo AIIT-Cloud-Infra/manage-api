@@ -6,11 +6,6 @@ class InstancesController < ApplicationController
     render_outcome(outcome)
   end
 
-  def show
-    outcome = Services::Instances::Show.run(params.merge(user_id: @current_user.id))
-    render_outcome(outcome)
-  end
-
   def create
     outcome = Services::Instances::Create.run(params.merge(user_id: @current_user.id))
     render_outcome(outcome)

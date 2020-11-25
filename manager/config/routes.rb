@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :instances, only: [:index, :show, :create, :destroy] do
+  resources :instances, only: [:index, :create, :destroy] do
     member do
       post :start
       post :stop
