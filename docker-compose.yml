@@ -30,7 +30,7 @@ services:
     volumes:
       - ./agent:/agent-api:delegated
     ports:
-      - 4567:4567
+      - 4567:80
     depends_on:
       - db
 volumes:

@@ -20,6 +20,7 @@ Sidekiq.configure_client do |config|
 end
 
 set :bind, '0.0.0.0'
+set :port, 80
 
 # VMの作成
 post '/instances' do

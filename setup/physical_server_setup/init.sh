@@ -27,16 +27,20 @@ sudo yum install -y epel-release && sudo yum install -y redis
 # rsync
 yum -y install rsync xinetd
 
-# ruby
-sudo yum install -y centos-release-scl
-sudo yum install -y rh-ruby27 rh-ruby27-ruby-devel tzdata
 # etc
-sudo yum install -y mysql-devel gcc make
+sudo yum install -y centos-release-scl
+sudo yum install -y gcc make
 sudo yum install -y libxml2 libxslt libxml2-devel libxslt-devel
 
-COMMAND="scl enable rh-ruby27 bash"
-PROFILE_PATH="/home/hmori/.bash_profile"
-result=$(grep "$COMMAND" "$PROFILE_PATH")
-if [[ -z $result ]]; then
-  echo $COMMAND >> $PROFILE_PATH
-fi
+# ruby
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+~/.rbenv/bin/rbenv init
+source ~/.bash_profile
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+sudo ~/.rbenv/plugins/ruby-build/install.sh
+sudo yum install -y openssl-devel readline-devel zlib-devel
+rbenv install 2.7.2
+echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+source ~/.bash_profile
+rbenv global 2.7.2
