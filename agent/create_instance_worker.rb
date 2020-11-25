@@ -7,6 +7,7 @@ require './models/ssh_key'
 
 class CreateInstanceWorker
   include Sidekiq::Worker
+  sidekiq_options retry: 3
 
   def perform(uid, params = {})
     p uid

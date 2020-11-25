@@ -12,8 +12,8 @@ module Services::Instances
       ActiveRecord::Base.transaction do
         instance.save!(status: Instance.statuses[:terminating])
         
-        client = Faraday.new(url: "http://#{instance.server.ip_address}/instances/#{instance.uid}/terminate")
-        res = client.post do |req|
+        client = Faraday.new(url: "http://#{instance.server.ip_address}/instances/#{instance.uid}")
+        res = client.delete do |req|
         end
         unless res.success?
           raise IOError
