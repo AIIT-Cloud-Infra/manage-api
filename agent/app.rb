@@ -12,7 +12,7 @@ require './models/base_img'
 require './create_instance_worker'
 
 # DB設定ファイルの読み込み
-ActiveRecord::Base.configurations = YAML.load_file('database.yml')
+ActiveRecord::Base.configurations = YAML.load(ERB.new(File.read('database.yml')).result)
 ActiveRecord::Base.establish_connection(development? ? :development : :production)
 # Sidekiq Redis
 Sidekiq.configure_client do |config|
