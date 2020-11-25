@@ -18,13 +18,17 @@ ActiveRecord::Base.establish_connection(development? ? :development : :productio
 Sidekiq.configure_client do |config|
   config.redis = { 'db' => 1 }
 end
+Sidekiq.configure_server do |config|
+  config.redis = { 'db' => 1 }
+end
 
 set :bind, '0.0.0.0'
 
 # VMの作成
 post '/instances' do
   # キューイングで実行
-  CreateInstanceWorker.perform_async(JSON.parse(request.body.read))
+  params = JSON.parse(request.body.read)
+  CreateInstanceWorker.perform_async(params["uid"], params)
 end
 
 # VMの削除

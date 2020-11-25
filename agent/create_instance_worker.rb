@@ -5,15 +5,12 @@ require 'active_record'
 require './models/instance'
 require './models/ssh_key'
 
-Sidekiq.configure_server do |config|
-  config.redis = { 'db' => 1 }
-end
-
 class CreateInstanceWorker
   include Sidekiq::Worker
 
-  def perform(params)
-    uid = params["uid"]
+  def perform(uid, params = {})
+    p uid
+    p params
     memory = params["memory"]
     cpu = params["cpu"]
     # DBデータ
