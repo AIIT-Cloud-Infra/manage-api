@@ -14,7 +14,7 @@ KEY_PATH="/tmp/${ID}"
 # キー作成
 ssh-keygen -f "${KEY_PATH}" -q -N "" > /dev/null
 # publicキーのコピー（ユーザー名は guest 固定）
-echo "guest" | sshpass ssh-copy-id -f -i "${KEY_PATH}.pub" "guest@${IP_ADDRESS}" > /dev/null
+sshpass -p "guest" ssh-copy-id -f -i "${KEY_PATH}.pub" "guest@${IP_ADDRESS}" > /dev/null
 
 # privateキーの内容を変数化
 PRIVAYE_KEY=$(cat "${KEY_PATH}")

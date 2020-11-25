@@ -10,8 +10,6 @@ class CreateInstanceWorker
   sidekiq_options retry: 3
 
   def perform(uid, params = {})
-    p uid
-    p params
     memory = params["memory"]
     cpu = params["cpu"]
     # DBデータ
