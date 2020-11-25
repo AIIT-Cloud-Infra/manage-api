@@ -14,32 +14,30 @@ module Services::Instances
       server = select_physical_server(memory, cpu, img.size)
       # uid生成
       uid = SecureRandom.uuid
-      ActiveRecord::Base.transaction do
-        instance = Instance.create!(
+      instance = Instance.create!(
+        uid: uid,
+        memory: memory,
+        cpu: cpu,
+        storage: img.size,
+        user_id: user_id,
+        base_img_id: img.id,
+        server_id: server.id,
+        status: Instance.statuses[:starting]
+      )
+
+      client = Faraday.new(url: "http://#{server.ip_address}/instances")
+      res = client.post do |req|
+        req.headers['Content-Type'] = 'application/json'
+        req.body = {
           uid: uid,
           memory: memory,
-          cpu: cpu,
-          storage: img.size,
-          user_id: user_id,
-          base_img_id: img.id,
-          server_id: server.id,
-          status: Instance.statuses[:starting]
-        )
-
-        client = Faraday.new(url: "http://#{server.ip_address}/instances")
-        res = client.post do |req|
-          req.headers['Content-Type'] = 'application/json'
-          req.body = {
-            uid: uid,
-            memory: memory,
-            cpu: cpu
-          }.to_json
-        end
-        unless res.success?
-          raise IOError
-        end
-        { instance_uid: uid }
+          cpu: cpu
+        }.to_json
       end
+      unless res.success?
+        raise IOError
+      end
+      { instance_uid: uid }
     end
 
     private
