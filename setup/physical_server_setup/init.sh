@@ -22,8 +22,8 @@ sudo yum install -y \
   sshpass
 # redis
 sudo yum install -y epel-release && sudo yum install -y redis
-# sudo systemctl enable redis.service # agentのみ
-# sudo systemctl start redis.service # agentのみ
+sudo systemctl enable redis.service # agentのみ
+sudo systemctl start redis.service # agentのみ
 # rsync
 yum -y install rsync xinetd
 
@@ -31,6 +31,9 @@ yum -y install rsync xinetd
 sudo yum install -y centos-release-scl
 sudo yum install -y gcc make
 sudo yum install -y libxml2 libxslt libxml2-devel libxslt-devel
+
+# screen
+sudo yum install -y screen
 
 # ruby
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
