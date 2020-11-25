@@ -21,14 +21,14 @@ sudo virt-clone \
   --connect qemu:///system \
   --original kvm_centos7 \
   --name ${ID} \
-  --file ${IMG_PATH}
+  --file ${IMG_PATH} > /dev/null
 
 # メモリ変更
-sudo virsh setmaxmem "${ID}" "${MEMORY}MB" --config
-sudo virsh setmem "${ID}" "${MEMORY}MB" --config
+sudo virsh setmaxmem "${ID}" "${MEMORY}MB" --config > /dev/null
+sudo virsh setmem "${ID}" "${MEMORY}MB" --config > /dev/null
 # CPU変更
-sudo virsh setvcpus "${ID}" "${CPU}" --config --maximum
+sudo virsh setvcpus "${ID}" "${CPU}" --config --maximum > /dev/null
 # VMの起動
-sudo virsh start "${ID}"
+sudo virsh start "${ID}" > /dev/null
 # MACアドレスの取得
 sudo virsh domiflist "${ID}" | grep ':' | awk '{print $5}'

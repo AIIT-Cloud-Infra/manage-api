@@ -15,7 +15,7 @@ while [[ -z "$IP_ADDRESS" ]]; do
   sleep 5s
   IP_ADDRESS=`ip neigh | grep "${MAC_ADDRESS}" | awk '{print $1}'`
   if [[ $count == 10 ]]; then
-    echo ok
+    break
   fi
   count=$((count++))
 done
