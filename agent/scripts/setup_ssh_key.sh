@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 引数確認
-if [[ $# -ne 1 ]]; then
-  echo "require 1 args" 1>&2
+if [[ $# -ne 2 ]]; then
+  echo "require 2 args" 1>&2
   exit 1
 fi
 
