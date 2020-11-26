@@ -1,8 +1,0 @@
-curl -X 'POST' http://localhost:3000/users/signup \
-  -d 'email=sample@aiit.ac.jp' \
-  -d 'password=test12345'
-
-
-curl -X 'POST' http://localhost:3000/users/signin \
-  -d 'email=sample@aiit.ac.jp' \
-  -d 'password=test12345' | jq
